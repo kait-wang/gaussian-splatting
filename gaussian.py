@@ -26,7 +26,7 @@ def gaussian_weight(xy, mu, Sigma):
     eye = torch.eye(2, device=Sigma.device, dtype=Sigma.dtype)
     inv_Sigma = torch.linalg.inv(Sigma + 1e-6 * eye)
 
-    transformed = delta @ inv_Sigma          # (N, P, 2)
+    transformed = delta @ inv_Sigma
     distance_squared = (transformed * delta).sum(dim=-1)
 
     return torch.exp(-0.5 * distance_squared).transpose(0, 1)
@@ -44,10 +44,33 @@ def rotation_2d(theta):
     ], dim=-2)
 
 def pixel_grid(H, W, device, dtype):
+    '''
+    make grid of (x, y) coords for pixels 
+    '''
     y, x = torch.meshgrid(
         torch.arange(H, device=device, dtype=dtype),
         torch.arange(W, device=device, dtype=dtype),
         indexing="ij",
     )
-
     return torch.stack([x, y], dim=-1).reshape(-1, 2)
+
+def render(mu, Sigma, color, opacity, order, H, W):
+    '''
+    alpha compositing: determine what color a pixel at (x, y) is
+    '''
+    xy = pixel_grid(H, W, mu.device, mu.dtype)
+    w = gaussian_weight(xy, mu, Sigma) 
+
+    # alpha of pixel for each gaussian 
+    alpha = opacity[None, :] * w # (P, N)
+
+    C = torch.zeros(H * W, 3, device=mu.device, dtype=mu.dtype) # color
+    T = torch.ones(H * W, device=mu.device, dtype=mu.dtype) # visibility left
+
+    # go thru gaussians from front to back
+    for i in order:
+        a = alpha[:, i]
+        C = C + (T * a)[:, None] * color[i]
+        T = T * (1 - a)
+
+    return C.reshape(H, W, 3)
