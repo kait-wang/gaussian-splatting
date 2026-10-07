@@ -9,7 +9,7 @@ Implementation of a differentiable Gaussian splatting pipeline for fitting 2D im
 - `densification_3d.py` — Implements density control for 3D Gaussians.
 - `train_2d.py` — Initializes and trains 2D Gaussians and runs image-fitting experiments.
 - `train_3d.py` — Loads camera poses, trains the 3D reconstruction, and evaluates training and held-out views.
-- `evaluate_p9.py` — Loads a saved 3D model and generates held-out comparisons and novel-view renders.
+- `novel_view_evaluate.py` — Loads a saved 3D model and generates held-out comparisons and novel-view renders.
 - `utils.py` — Provides device selection, image loading/saving, and PSNR calculation.
 - `data/` — Contains the coffee, astronaut, and cat target images.
 - `spheres/` — Contains `cameras.json` and the provided `train/` and `val/` images.
@@ -72,7 +72,7 @@ For P8, select `run_p8()` in the execution block. It loads the saved P7 checkpoi
 After saving the P7 checkpoint, run:
 
 ```bash
-python -u evaluate_p9.py
+python -u novel_view_evaluate.py
 ```
 
 Check that the checkpoint path points to the model being evaluated. This script evaluates the held-out cameras and renders additional novel viewpoints without retraining.
