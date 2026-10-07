@@ -1,0 +1,9 @@
+Gaussians: 4000
+Steps: 1500
+Adam learning rate: 0.01
+Mean training PSNR: 23.8380 dB
+Centers initialized uniformly in [-1.5, 1.5]^3
+Initial scale: 0.08 on each axis
+Initial quaternion: (1, 0, 0, 0)
+Initial RGB: 0.5
+Initial opacity: approximately 0.119

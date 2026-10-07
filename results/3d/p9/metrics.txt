@@ -1,0 +1,5 @@
+Checkpoint: results/3d/p7/model.pt
+Gaussian count: 4000
+Mean training PSNR: 23.8380 dB
+Mean held-out PSNR: 16.5837 dB
+Training minus held-out PSNR: 7.2544 dB

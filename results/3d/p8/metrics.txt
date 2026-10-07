@@ -1,0 +1,8 @@
+Steps: 1500
+Adaptive initial count: 1000
+Budget: 4000
+Gradient threshold: 0.0002
+World size threshold: 0.08
+
+Fixed: count=4000, train PSNR=23.8380, held-out PSNR=16.5837
+Densified: count=1510, train PSNR=23.3265, held-out PSNR=17.2494
